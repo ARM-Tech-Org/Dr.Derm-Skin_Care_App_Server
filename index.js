@@ -1,8 +1,11 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
+const express =  require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
-import connectMongoDB from './db/connectDB.js';
+const bodyParser= require('body-parser');
+
+const connectMongoDB = require('./db/connectDB.js');
+
 
 dotenv.config();
 
@@ -22,3 +25,18 @@ try {
 } catch (error) {
     console.log('Error connecting to MongoDB: ', error.message);
 }
+
+app.get("/api/v1/test", (req, res, next) => {
+    res.status(200).json({
+        success: true,
+        message: "API Working"
+    });
+});
+
+//=========================================================
+const userRoute = require('./routes/UserRoute');
+
+
+
+//========================================================
+app.use('/api/v1/user', userRoute);

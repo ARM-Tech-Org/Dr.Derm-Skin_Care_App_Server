@@ -1,8 +1,9 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+
 
 const UserSchema = new mongoose.Schema(
     {
-        username:{
+        name:{
             type: String,
             required: true
         },
@@ -22,14 +23,15 @@ const UserSchema = new mongoose.Schema(
         },
         subscriptionType:{
             type:String,
-            required: true
+            required: true,
+            enum: ['free', 'paid'] // Enum definition
         },
         paymentInfo:{
             cardNumber:{
                 type:String
             },
             expiryDate:{
-                type:String
+                type:Date
             },
             cvv:{
                 type:String
@@ -39,6 +41,4 @@ const UserSchema = new mongoose.Schema(
     {timeStamps:true}
 );
 
-const User = mongoose.model('User', UserSchema);
-
-export default User;
+module.exports = mongoose.model('user',UserSchema);
