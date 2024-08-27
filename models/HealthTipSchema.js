@@ -10,6 +10,13 @@ const HealthTipSchema = new mongoose.Schema(
             type:String,
             required:true
         },
+        description:{
+            type:String,
+            required:true
+        },
+        vector_image:{
+            type:String,
+        },
         images:[
             {type:String}
         ]
