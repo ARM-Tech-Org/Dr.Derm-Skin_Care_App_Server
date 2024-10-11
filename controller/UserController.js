@@ -44,6 +44,7 @@ const register = (req, resp) =>{
     });
 }
 
+/*
 const login = (req, resp) =>{
     userSchema.findOne({email: req.body.email}).then(result=>{
         if(result==null){
@@ -63,12 +64,44 @@ const login = (req, resp) =>{
                     const token = jsonwebtoken.sign(payload,secretKey,{expiresIn});
 
                     resp.status(200).json({message: 'Login successful', token: token});
+                    resp.headers.authorization = token;
                 }else{
-                    resp.status(400).json({message: 'Incorrect password'});
+                    resp.status(403).json({message: 'Incorrect password'});
                 }
             })
         }
     })
 }
+*/
+const login = (req, resp) => {
+    userSchema.findOne({email: req.body.email}).then(result => {
+        if (!result) {
+            return resp.status(404).json({message: 'User not found'});
+        }
+
+        bcrypt.compare(req.body.password, result.password, (err, isMatch) => {
+            if (err) {
+                return resp.status(500).json({error: 'Internal server error', details: err});
+            }
+
+            if (isMatch) {
+                const payload = {
+                    email: result.email,
+                    userType: result.subscriptionType
+                };
+                const secretKey = process.env.SECRET_KEY;
+                const expiresIn = '12h';
+                const token = jsonwebtoken.sign(payload, secretKey, {expiresIn});
+
+                resp.setHeader('Authorization', `Bearer ${token}`);
+                return resp.status(200).json({message: 'Login successful', token: token});
+            } else {
+                return resp.status(403).json({message: 'Incorrect password'});
+            }
+        });
+    }).catch(err => {
+        return resp.status(500).json({error: 'Error finding user', details: err});
+    });
+};
 
 module.exports = {login,register}

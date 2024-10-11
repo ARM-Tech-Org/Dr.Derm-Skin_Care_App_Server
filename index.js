@@ -1,6 +1,7 @@
 const express =  require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const globalErrorHandler = require('./util/GlobalErrorHandler');
 
 const bodyParser= require('body-parser');
 
@@ -35,8 +36,25 @@ app.get("/api/v1/test", (req, res, next) => {
 
 //=========================================================
 const userRoute = require('./routes/UserRoute');
+const healthTipRoute = require('./routes/HealthTipRoute');
 
 
 
 //========================================================
 app.use('/api/v1/user', userRoute);
+app.use('/api/v1/healthTip', healthTipRoute);
+
+
+
+
+//========================================================
+app.use((req, res, next) => {
+    /*res.status(404).json({
+        success: false,
+        message: "Page not found"
+    });*/
+    const error = new Error('Page not found');
+    error.status = 404;
+    next(error);
+});
+app.use(globalErrorHandler);

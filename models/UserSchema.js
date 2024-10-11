@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema(
         gender:{
             type:String
         },
+        /*userType:{
+            type:String,
+            required:true
+        },*/
         subscriptionType:{
             type:String,
             required: true,

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose =require("mongoose");
 
 const HealthTipSchema = new mongoose.Schema(
     {
@@ -24,6 +24,6 @@ const HealthTipSchema = new mongoose.Schema(
     {timestamps:true}
 );
 
-const HealthTip = mongoose.model('HealthTip', HealthTipSchema);
 
-export default HealthTip;
+
+module.exports = mongoose.model('HealthTip', HealthTipSchema);
