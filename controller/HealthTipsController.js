@@ -65,7 +65,7 @@ const deleteById=async (req,res)=>{
 
 module.exports = {create,findById,findAll,deleteById}*/
 const healthTipsSchema = require("../models/HealthTipSchema");
-
+const asyncErrorHandler = require("../errorhandlers/AsyncErrorHandler");
 const create = (req, res) => {
     const healthTip = new healthTipsSchema({
         header: req.body.header,
@@ -100,9 +100,9 @@ const findById = (req, res) => {
         });
 }
 
-const findAll = (req, res) => {
+const findAll = asyncErrorHandler((req, res) => {
 
-    try {
+
         const { searchText, page = 1, size = 10 } = req.query;
         const pageNumber = parseInt(page);
         const pageSize = parseInt(size);
@@ -122,11 +122,7 @@ const findAll = (req, res) => {
             .catch(error => {
                 return res.status(500).json({ message: 'Internal server error', error: error.message });
             });
-
-    } catch (error) {
-        return res.status(500).json({ message: 'Internal server error', error: error.message });
-    }
-}
+});
 
 const deleteById = async (req, res) => {
     try {
