@@ -1,7 +1,7 @@
 const express =  require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const globalErrorHandler = require('./util/GlobalErrorHandler');
+const globalErrorHandler = require('./errorhandlers/GlobalErrorHandler');
 
 const bodyParser= require('body-parser');
 
