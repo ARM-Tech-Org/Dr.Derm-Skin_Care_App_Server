@@ -138,3 +138,4 @@ const deleteById = async (req, res) => {
 }
 
 module.exports = { create, findById, findAll, deleteById };
+
