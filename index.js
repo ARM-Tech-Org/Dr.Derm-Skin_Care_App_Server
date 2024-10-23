@@ -37,12 +37,13 @@ app.get("/api/v1/test", (req, res, next) => {
 //=========================================================
 const userRoute = require('./routes/UserRoute');
 const healthTipRoute = require('./routes/HealthTipRoute');
-
+const ChatbotRoute = require('./routes/ChatbotRoute');
 
 
 //========================================================
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/healthTip', healthTipRoute);
+app.use('/api/v1/chatbot', ChatbotRoute);
 
 
 
